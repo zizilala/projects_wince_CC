@@ -109,6 +109,25 @@ VOID GPIOSetBit(HANDLE hContext, DWORD id)
     }
 }
 
+/*BOOL xxGPIOSetBit(HANDLE hContext, DWORD id)
+{
+    GpioDevice_t *pDevice = (GpioDevice_t*)hContext;
+    int grp;
+    if (GetGroupByID(pDevice,id,&grp))
+    {
+        id -= pDevice->rgRanges[grp];
+
+        if (pDevice->rgGpioTbls[grp])
+            pDevice->rgGpioTbls[grp]->pfnSetBit(pDevice->rgGpioTbls[grp]->context, id);
+        else
+        {
+            DeviceIoControl(pDevice->rgHandles[grp],IOCTL_GPIO_SETBIT,&id,sizeof(id),NULL,0,NULL,NULL);
+        }
+    }
+	return TRUE;
+}*/
+
+
 VOID GPIOClrBit(HANDLE hContext, DWORD id)
 {
     GpioDevice_t *pDevice = (GpioDevice_t*)hContext;

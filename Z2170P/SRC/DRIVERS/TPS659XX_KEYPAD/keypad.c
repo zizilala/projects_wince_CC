@@ -80,6 +80,14 @@ RemapVKeyToScreenOrientation(
 //------------------------------------------------------------------------------
 //  Device registry parameters
 
+//	LPTSTR 	name;
+//  	DWORD  	type;
+//   BOOL   	required;
+//   DWORD  	offset;
+//   DWORD 	size;
+//   PVOID  	pDefault;
+
+
 static const DEVICE_REGISTRY_PARAM s_deviceRegParams[] = {
     {
         L"Priority256", PARAM_DWORD, FALSE, 
@@ -134,12 +142,11 @@ static const DEVICE_REGISTRY_PARAM s_deviceRegParams[] = {
 //
 //  Send keypad event
 //
-VOID 
-SendKeyPadEvent(
-    BYTE bVk,
-    BYTE bScan,
-    DWORD dwFlags,
-    DWORD dwExtraInfo)
+VOID SendKeyPadEvent(
+    	BYTE bVk,
+    	BYTE bScan,
+    	DWORD dwFlags,
+    	DWORD dwExtraInfo)
 {
     USHORT index;
     UCHAR vk_extra = 0, order;
@@ -187,12 +194,10 @@ SendKeyPadEvent(
 //  Find keys pressed, by comparing old and new state.
 //  Send key events for all changed keys.
 //
-VOID
-PressedReleasedKeys(
+VOID PressedReleasedKeys(
     KeypadDevice_t *pDevice,
     const DWORD vkState[],
-    const DWORD vkNewState[]
-    )
+    const DWORD vkNewState[])
 {
     UINT8 vk;
     int ic;
@@ -274,11 +279,9 @@ PressedReleasedKeys(
 //
 //  Sets the device power state
 //
-BOOL
-SetPowerState(
+BOOL SetPowerState(
     KeypadDevice_t         *pDevice, 
-    CEDEVICE_POWER_STATE    power
-    )
+    CEDEVICE_POWER_STATE    power)
 {
     BOOL rc = FALSE;
     
@@ -320,11 +323,9 @@ cleanUp:
 //
 //  Called by device manager to initialize device.
 //
-DWORD
-KPD_Init(
+DWORD KPD_Init(
     LPCTSTR szContext,
-    LPCVOID pBusContext
-    )
+    LPCVOID pBusContext)
 {
     DWORD rc = (DWORD)NULL;
     KeypadDevice_t *pDevice = NULL;
@@ -468,10 +469,7 @@ cleanUp:
 //
 //  Called by device manager to uninitialize device.
 //
-BOOL
-KPD_Deinit(
-    DWORD context
-    )
+BOOL KPD_Deinit(DWORD context)
 {
     BOOL rc = FALSE;
     KeypadDevice_t *pDevice = (KeypadDevice_t*)context;
@@ -547,12 +545,10 @@ cleanUp:
 //
 //  Called by device manager to open a device for reading and/or writing.
 //
-DWORD
-KPD_Open(
-    DWORD context, 
-    DWORD accessCode, 
-    DWORD shareMode
-    )
+DWORD KPD_Open(
+		DWORD context, 
+    	DWORD accessCode, 
+    	DWORD shareMode)
 {
     UNREFERENCED_PARAMETER(context);
     UNREFERENCED_PARAMETER(accessCode);
@@ -566,10 +562,7 @@ KPD_Open(
 //
 //  This function closes the device context.
 //
-BOOL
-KPD_Close(
-    DWORD context
-    )
+BOOL KPD_Close(DWORD context)
 {
     UNREFERENCED_PARAMETER(context);
     return TRUE;
@@ -583,10 +576,7 @@ KPD_Close(
 //  will disable the keypad interrupts before suspend.  Make sure the
 //  keypad interrupts are re-enabled on resume.
 //
-void
-KPD_PowerUp(
-    DWORD context
-    )
+void KPD_PowerUp(DWORD context)
 {
     UNREFERENCED_PARAMETER(context);
 }
@@ -597,16 +587,14 @@ KPD_PowerUp(
 //
 //  This function sends a command to a device.
 //
-BOOL
-KPD_IOControl(
+BOOL KPD_IOControl(
     DWORD context, 
     DWORD code, 
     UCHAR *pInBuffer, 
     DWORD inSize, 
     UCHAR *pOutBuffer,
     DWORD outSize, 
-    DWORD *pOutSize
-    )
+    DWORD *pOutSize)
 {
     BOOL rc = FALSE;
     KeypadDevice_t *pDevice = (KeypadDevice_t*)context;
@@ -750,12 +738,11 @@ cleanUp:
 //
 //  Convert physical state to virtual keys state
 //
-static VOID
-PhysicalStateToVirtualState(
-    const UINT8 matrix[MATRIX_SIZE],
-    DWORD vkNewState[],
-    BOOL *pKeyDown
-    )
+static VOID hysicalStateToVirtualState(
+    		const UINT8 matrix[MATRIX_SIZE],
+    		DWORD vkNewState[],
+    		BOOL *pKeyDown
+    		)
 {
     BOOL keyDown = FALSE;
     USHORT state;
@@ -798,8 +785,7 @@ PhysicalStateToVirtualState(
 //
 //  This function remaps multiple virtual key to final virtual key.
 //
-static VOID
-VirtualKeyRemap(
+static VOID VirtualKeyRemap(
     DWORD time,
     BOOL *pKeyDown,
     KeypadRemapState_t *pRemapState,
@@ -920,10 +906,8 @@ VirtualKeyRemap(
 //
 //  Map the key pressed according to the current screen rotation.
 //
-static UCHAR
-RemapVKeyToScreenOrientation(
-    UCHAR   ucVKey
-    )
+static UCHAR RemapVKeyToScreenOrientation(
+    UCHAR   ucVKey)
 {
     // Arrow key translation for rotate 0, 90, 180 and 270. 
     static const UCHAR   ucOrientationDMDO_0VKTable[4]   = {VK_TUP,    VK_TRIGHT, VK_TDOWN,  VK_TLEFT };

@@ -43,7 +43,7 @@ _OEMINCPATH=$(_OEMINCPATH);$(_WINCEROOT)\public\common\ddk\inc
 
 _ISVINCPATH=$(_WINCEROOT)\public\common\sdk\inc
 
-#Add path ...\ARMV4I\retail, Ray 13-08-07
+#Add path ...\ARMV4I\retail, Ray 13-08-14
 _PLATCOMMONLIBARMRET=$(_PLATCOMMONLIB)\ARMV4I\retail
 
 
@@ -56,8 +56,9 @@ INCLUDES=$(INCLUDES);$(TI_COMMON_DIR)\$(_TPS659XX)\inc
 INCLUDES=$(INCLUDES);$(TI_COMMON_DIR)\COMMON_TI\inc
 INCLUDES=$(INCLUDES);$(TI_COMMON_DIR)\$(_SOC)\inc
 
-#Add path ...\ARMV4I\retail, Ray 13-08-09
+#Add path ...\ARMV4I\retail, Ray 13-08-14
 INCLUDES=$(INCLUDES);$(TI_COMMON_DIR)\COMMON_TI\DSS\inc
+INCLUDES=$(INCLUDES);$(TI_COMMON_DIR)\TPS659XX\keypad
 
 
 TI_COMMON=common_ti

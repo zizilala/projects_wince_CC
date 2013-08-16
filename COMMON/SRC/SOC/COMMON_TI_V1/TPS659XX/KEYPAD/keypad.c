@@ -70,14 +70,19 @@ static int  g_iDisplayOrientation = -1;
 //------------------------------------------------------------------------------
 //  Function Prototypes
 
-static UCHAR
-RemapVKeyToScreenOrientation(
-    UCHAR   ucVKey
-    );
+static UCHAR RemapVKeyToScreenOrientation(UCHAR ucVKey);
 
 
 //------------------------------------------------------------------------------
 //  Device registry parameters
+
+//	LPTSTR 	name;
+//  	DWORD  	type;
+//   BOOL   	required;
+//   DWORD  	offset;
+//   DWORD 	size;
+//   PVOID  	pDefault;
+
 
 static const DEVICE_REGISTRY_PARAM s_deviceRegParams[] = {
     {
@@ -133,12 +138,11 @@ static const DEVICE_REGISTRY_PARAM s_deviceRegParams[] = {
 //
 //  Send keypad event
 //
-VOID 
-SendKeyPadEvent(
-    BYTE bVk,
-    BYTE bScan,
-    DWORD dwFlags,
-    DWORD dwExtraInfo)
+VOID SendKeyPadEvent(
+    	BYTE bVk,
+    	BYTE bScan,
+    	DWORD dwFlags,
+    	DWORD dwExtraInfo)
 {
     USHORT index;
     UCHAR vk_extra = 0, order;

@@ -238,7 +238,6 @@ static BOOL bDVIEnabled = FALSE;
 
 static OMAP_LCD_DVI_RES g_dwSelectedDSSResolution = OMAP_RES_INVALID;
 
-
 #define DEFAULT_PIXELTYPE   lcd_res_params[g_dwSelectedDSSResolution].pixelFmt
 
 #define LCD_WIDTH           lcd_res_params[g_dwSelectedDSSResolution].width
@@ -411,11 +410,9 @@ LcdPdd_LCD_Initialize(
 
 
 //------------------------------------------------------------------------------
-BOOL
-LcdPdd_GetMemory(
-    DWORD   *pVideoMemLen,
-    DWORD   *pVideoMemAddr
-    )
+BOOL LcdPdd_GetMemory(
+    	DWORD   *pVideoMemLen,
+    	DWORD   *pVideoMemAddr)
 {
     //  Return video memory parameters
     if( pVideoMemLen )
@@ -431,13 +428,11 @@ LcdPdd_GetMemory(
 }
 
 //------------------------------------------------------------------------------
-BOOL
-LcdPdd_LCD_GetMode(
-    DWORD   *pPixelFormat,
-    DWORD   *pWidth,
-    DWORD   *pHeight,
-    DWORD   *pPixelClock
-    )
+BOOL LcdPdd_LCD_GetMode(
+    	DWORD   *pPixelFormat,
+   	 	DWORD   *pWidth,
+    	DWORD   *pHeight,
+    	DWORD   *pPixelClock)
 {
 	RETAILMSG(1,(L"\n\r*** LcdPdd_LCD_GetMode ***\n\r"));
     LcdPdd_LCD_InitResolution();        

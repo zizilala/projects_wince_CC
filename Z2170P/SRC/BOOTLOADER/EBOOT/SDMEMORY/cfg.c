@@ -351,9 +351,7 @@ cleanUp:
 
 //------------------------------------------------------------------------------
 //Ray 13-07-31 
-BOOL
-BLShowLogo(
-    )
+BOOL BLShowLogo()
 {
 	//  Show the bootloader splashscreen if present on the SDCard
 	//if (!ShowSDLogo()) //Ray 13-08-01 

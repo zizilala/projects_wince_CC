@@ -252,7 +252,7 @@
 ; File c:\wince600\platform\z2170p\src\bsp_common\display\lcd_qvga.c
 
   00000			 AREA	 |.pdata|, PDATA
-|$T46249| DCD	|$LN14@LcdPdd_LCD|
+|$T46254| DCD	|$LN14@LcdPdd_LCD|
 	DCD	0x40004d01
 
   00000			 AREA	 |.rdata|, DATA, READONLY
@@ -331,7 +331,7 @@
 
   00000		 |$LN14@LcdPdd_LCD|
   00000	e92d4010	 stmdb       sp!, {r4, lr}
-  00004		 |$M46246|
+  00004		 |$M46251|
 
 ; 290  : 	RETAILMSG(1,(L"LcdPdd_LCD_InitResolution : %x\r\n",g_dwSelectedDSSResolution)); 
 
@@ -492,7 +492,7 @@
   0012c	00000000	 DCD         |??_C@_1EC@MMOGAKLI@?$AAL?$AAc?$AAd?$AAP?$AAd?$AAd?$AA_?$AAL?$AAC?$AAD?$AA_?$AAI?$AAn?$AAi?$AAt?$AAR?$AAe?$AAs?$AAo?$AAl?$AAu?$AAt?$AAi?$AAo?$AAn?$AA?5?$AA?3?$AA?5?$AA?$CF?$AAx?$AA?$AN?$AA?6@|
   00130		 |$LN24@LcdPdd_LCD|
   00130	00000000	 DCD         |lcd_res_params|
-  00134		 |$M46247|
+  00134		 |$M46252|
 
 			 ENDP  ; |LcdPdd_LCD_InitResolution|
 
@@ -500,7 +500,7 @@
 	IMPORT	|ConvertCAtoPA|
 
   00000			 AREA	 |.pdata|, PDATA
-|$T46270| DCD	|$LN7@LcdPdd_Get|
+|$T46275| DCD	|$LN7@LcdPdd_Get|
 	DCD	0x40000d01
 ; Function compile flags: /Ogspy
 
@@ -512,7 +512,7 @@
 
   00000		 |$LN7@LcdPdd_Get|
   00000	e92d4010	 stmdb       sp!, {r4, lr}
-  00004		 |$M46267|
+  00004		 |$M46272|
   00004	e1a04001	 mov         r4, r1
   00008	e3500000	 cmp         r0, #0
 
@@ -548,7 +548,7 @@
 
   0002c	e8bd4010	 ldmia       sp!, {r4, lr}
   00030	e12fff1e	 bx          lr
-  00034		 |$M46268|
+  00034		 |$M46273|
 
 			 ENDP  ; |LcdPdd_GetMemory|
 
@@ -561,7 +561,7 @@
 	IMPORT	|__rt_udiv|
 
   00000			 AREA	 |.pdata|, PDATA
-|$T46284| DCD	|$LN9@LcdPdd_LCD@2|
+|$T46289| DCD	|$LN9@LcdPdd_LCD@2|
 	DCD	0x40003d01
 
   00000			 AREA	 |.rdata|, DATA, READONLY
@@ -620,7 +620,7 @@
 
   00000		 |$LN9@LcdPdd_LCD@2|
   00000	e92d41f0	 stmdb       sp!, {r4 - r8, lr}
-  00004		 |$M46281|
+  00004		 |$M46286|
   00004	e1a08003	 mov         r8, r3
   00008	e1a05002	 mov         r5, r2
   0000c	e1a06001	 mov         r6, r1
@@ -745,7 +745,7 @@
   000ec	00000000	 DCD         |lcd_res_params|
   000f0		 |$LN16@LcdPdd_LCD@2|
   000f0	00000000	 DCD         |??_C@_1DO@KCGAIHAL@?$AA?6?$AA?$AN?$AA?$CK?$AA?$CK?$AA?$CK?$AA?5?$AAL?$AAc?$AAd?$AAP?$AAd?$AAd?$AA_?$AAL?$AAC?$AAD?$AA_?$AAG?$AAe?$AAt?$AAM?$AAo?$AAd?$AAe?$AA?5?$AA?$CK?$AA?$CK?$AA?$CK?$AA?6?$AA?$AN?$AA?$AA@|
-  000f4		 |$M46282|
+  000f4		 |$M46287|
 
 			 ENDP  ; |LcdPdd_LCD_GetMode|
 
@@ -760,7 +760,7 @@
 |g_pDispRegs| %	0x4
 
   00000			 AREA	 |.pdata|, PDATA
-|$T46302| DCD	|$LN13@LcdPdd_Set|
+|$T46307| DCD	|$LN13@LcdPdd_Set|
 	DCD	0x40003201
 
   00000			 AREA	 |.rdata|, DATA, READONLY
@@ -782,7 +782,7 @@
 
   00000		 |$LN13@LcdPdd_Set|
   00000	e92d4030	 stmdb       sp!, {r4, r5, lr}
-  00004		 |$M46299|
+  00004		 |$M46304|
   00004	e1a04000	 mov         r4, r0
 
 ; 475  :     // Do nothing if LCD has not yet been initialized
@@ -935,14 +935,14 @@
   000c0	00000000	 DCD         |??_C@_1EK@PCOLBNDB@?$AA?6?$AA?$AN?$AA?$CK?$AA?$CK?$AA?$CK?$AA?5?$AAL?$AAc?$AAd?$AAP?$AAd?$AAd?$AA_?$AAS?$AAe?$AAt?$AAP?$AAo?$AAw?$AAe?$AAr?$AAL?$AAe?$AAv?$AAe?$AAl?$AA?$CI?$AA?$CF?$AAd?$AA?$CJ?$AA?5?$AA?$CK@|
   000c4		 |$LN16@LcdPdd_Set|
   000c4	00000000	 DCD         |g_pDispRegs|
-  000c8		 |$M46300|
+  000c8		 |$M46305|
 
 			 ENDP  ; |LcdPdd_SetPowerLevel|
 
 	EXPORT	|LcdPdd_DVI_Select|
 
   00000			 AREA	 |.pdata|, PDATA
-|$T46315| DCD	|$LN5@LcdPdd_DVI|
+|$T46320| DCD	|$LN5@LcdPdd_DVI|
 	DCD	0x40000600
 ; Function compile flags: /Ogspy
 
@@ -953,7 +953,7 @@
 ; 542  : {
 
   00000		 |$LN5@LcdPdd_DVI|
-  00000		 |$M46312|
+  00000		 |$M46317|
   00000	e1a02000	 mov         r2, r0
 
 ; 543  : 
@@ -973,14 +973,14 @@
   00014		 |$LN6@LcdPdd_DVI|
   00014		 |$LN7@LcdPdd_DVI|
   00014	00000000	 DCD         |bDVIEnabled|
-  00018		 |$M46313|
+  00018		 |$M46318|
 
 			 ENDP  ; |LcdPdd_DVI_Select|
 
 	EXPORT	|LcdPdd_DVI_Enabled|
 
   00000			 AREA	 |.pdata|, PDATA
-|$T46326| DCD	|$LN5@LcdPdd_DVI@2|
+|$T46331| DCD	|$LN5@LcdPdd_DVI@2|
 	DCD	0x40000501
 ; Function compile flags: /Ogspy
 
@@ -992,7 +992,7 @@
 
   00000		 |$LN5@LcdPdd_DVI@2|
   00000	e52de004	 str         lr, [sp, #-4]!
-  00004		 |$M46323|
+  00004		 |$M46328|
 
 ; 553  :     LcdPdd_LCD_InitResolution();
 
@@ -1006,14 +1006,14 @@
 
   0000c	e49de004	 ldr         lr, [sp], #4
   00010	e12fff1e	 bx          lr
-  00014		 |$M46324|
+  00014		 |$M46329|
 
 			 ENDP  ; |LcdPdd_DVI_Enabled|
 
 	EXPORT	|LcdPdd_Get_PixClkDiv|
 
   00000			 AREA	 |.pdata|, PDATA
-|$T46335| DCD	|$LN5@LcdPdd_Get@2|
+|$T46340| DCD	|$LN5@LcdPdd_Get@2|
 	DCD	0x40000a01
 ; Function compile flags: /Ogspy
 
@@ -1025,7 +1025,7 @@
 
   00000		 |$LN5@LcdPdd_Get@2|
   00000	e52de004	 str         lr, [sp, #-4]!
-  00004		 |$M46332|
+  00004		 |$M46337|
 
 ; 561  :     LcdPdd_LCD_InitResolution();
 
@@ -1046,7 +1046,7 @@
   00024		 |$LN6@LcdPdd_Get@2|
   00024		 |$LN7@LcdPdd_Get@2|
   00024	00000000	 DCD         |lcd_res_params|
-  00028		 |$M46333|
+  00028		 |$M46338|
 
 			 ENDP  ; |LcdPdd_Get_PixClkDiv|
 
@@ -1064,7 +1064,7 @@
 	IMPORT	|MmMapIoSpace|
 
   00000			 AREA	 |.pdata|, PDATA
-|$T46350| DCD	|$LN6@LcdPdd_LCD@3|
+|$T46355| DCD	|$LN6@LcdPdd_LCD@3|
 	DCD	0x40008001
 
   00000			 AREA	 |.rdata|, DATA, READONLY
@@ -1136,7 +1136,7 @@
 
   00000		 |$LN6@LcdPdd_LCD@3|
   00000	e92d4030	 stmdb       sp!, {r4, r5, lr}
-  00004		 |$M46347|
+  00004		 |$M46352|
   00004	e1a04001	 mov         r4, r1
 
 ; 328  :     PHYSICAL_ADDRESS pa;
@@ -1413,7 +1413,7 @@
   001f8	00000000	 DCD         |g_pDispRegs|
   001fc		 |$LN17@LcdPdd_LCD@3|
   001fc	00000000	 DCD         |??_C@_1EE@POJFJFPA@?$AA?6?$AA?$AN?$AA?$CK?$AA?$CK?$AA?$CK?$AA?5?$AAL?$AAc?$AAd?$AAP?$AAd?$AAd?$AA_?$AAL?$AAC?$AAD?$AA_?$AAI?$AAn?$AAi?$AAt?$AAi?$AAa?$AAl?$AAi?$AAz?$AAe?$AA?5?$AA?$CK?$AA?$CK?$AA?$CK?$AA?6@|
-  00200		 |$M46348|
+  00200		 |$M46353|
 
 			 ENDP  ; |LcdPdd_LCD_Initialize|
 

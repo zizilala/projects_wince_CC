@@ -462,28 +462,28 @@
 
   00000		 |BLShowLogo| PROC
 
-; 357  : {
+; 355  : {
 
   00000		 |$LN5@BLShowLogo|
   00000	e52de004	 str         lr, [sp, #-4]!
   00004		 |$M46834|
 
-; 358  : 	//  Show the bootloader splashscreen if present on the SDCard
-; 359  : 	//if (!ShowSDLogo()) //Ray 13-08-01 
-; 360  : 	{
-; 361  : 		ShowLogo((UINT32)-1, 0);
+; 356  : 	//  Show the bootloader splashscreen if present on the SDCard
+; 357  : 	//if (!ShowSDLogo()) //Ray 13-08-01 
+; 358  : 	{
+; 359  : 		ShowLogo((UINT32)-1, 0);
 
   00004	e3a01000	 mov         r1, #0
   00008	e3e00000	 mvn         r0, #0
   0000c	eb000000	 bl          ShowLogo
 
-; 362  :     }  
-; 363  : 	
-; 364  : 	return TRUE;
+; 360  :     }  
+; 361  : 	
+; 362  : 	return TRUE;
 
   00010	e3a00001	 mov         r0, #1
 
-; 365  : }
+; 363  : }
 
   00014	e49de004	 ldr         lr, [sp], #4
   00018	e12fff1e	 bx          lr

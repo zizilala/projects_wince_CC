@@ -32,8 +32,9 @@
 #include "tps659xx.h"
 #include "omap_cpuver.h"
 
-UINT16 DefaultMacAddress[] = DEFAULT_MAC_ADDRESS;
 
+
+UINT16 DefaultMacAddress[] = DEFAULT_MAC_ADDRESS;
 
 //------------------------------------------------------------------------------
 //
@@ -84,6 +85,9 @@ VOID JumpTo(UINT32 address);
 VOID OEMDeinitDebugSerial();
 extern BOOL EnableDeviceClocks(UINT devId, BOOL bEnable);
 extern BOOL WriteFlashNK(UINT32 address, UINT32 size);
+//Add call function hotkey.c, Ray 13-08-13 
+VOID HotKey(BOOL);
+
 
 
 //------------------------------------------------------------------------------
@@ -117,9 +121,7 @@ void main()
 //  from boot loader after OEMDebugInit is called.  Note that boot loader
 //  BootloaderMain is called from  s/init.s code which is run after reset.
 //
-BOOL 
-OEMPlatformInit(
-    )
+BOOL OEMPlatformInit()
 {
     OMAP_GPTIMER_REGS *pTimerRegs;
     UINT32 CpuRevision, version;
@@ -206,10 +208,14 @@ OEMPlatformInit(
 	GPIOSetMode(hGPIO, 16,GPIO_DIR_OUTPUT);
 	GPIOClrBit(hGPIO,15); // BT_EN
 	GPIOSetMode(hGPIO, 15,GPIO_DIR_OUTPUT);
-	GPIOSetBit(hGPIO,61); // BACKLIGHT_EN
+	GPIOSetBit(hGPIO,61); // BACKLIGHT_EN, Ray
 	GPIOSetMode(hGPIO, 61,GPIO_DIR_OUTPUT);
-	//SPI LCM setup
 
+	// Side key GPIO initial
+	GPIOSetMode(hGPIO, 114,GPIO_DIR_INPUT);// SIDE_KEY1(KEY_2_4), Ray 13-08-12
+	GPIOSetMode(hGPIO, 115,GPIO_DIR_INPUT);// SIDE_KEY3(KEY_1_4), Ray 13-08-12
+
+	//SPI LCM setup
 	/*XX
 	GPIOSetBit(hGPIO,184); // PCM_EN serial clock 
 	GPIOSetMode(hGPIO, 184, GPIO_PULLUP_ENABLE);
@@ -399,9 +405,7 @@ static void CpuGpioOutput(DWORD GpioNumber, DWORD Value)
 //  This function is called before downloading an image. There is place
 //  where user can be asked about device setup.
 //
-ULONG
-OEMPreDownload(
-    )
+ULONG OEMPreDownload()
 {
     ULONG rc = (ULONG) BL_ERROR;
     BSP_ARGS *pArgs = OALCAtoUA(IMAGE_SHARE_ARGS_CA);
@@ -534,10 +538,11 @@ OEMPreDownload(
     // Don't force the boot menu, use default action unless user breaks
     // into menu
     bForceBootMenu = FALSE;
-    
+   
 retryBootMenu:
 	// Call configuration menu
     BLMenu(bForceBootMenu);
+	//HotKey(bForceBootMenu);			//Ray 13-08-13
     
     // Update ARGS structure if necessary
     if ((pArgs->header.signature != OAL_ARGS_SIGNATURE) ||

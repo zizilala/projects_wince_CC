@@ -33,10 +33,10 @@
 #include "triton.h"
 #include "tps659xx_internals.h"
 //Ray 13-08-08
-#include "sdk_spi.h"
+/*#include "sdk_spi.h"
 #include "dssai.h"
 //defines SPI1, Ray 13-08-06
-HANDLE  hSPI = NULL;
+HANDLE  hSPI = NULL;*/
 
 //------------------------------------------------------------------------------
 //
@@ -52,12 +52,14 @@ void lcd_config(UINT32 framebuffer);
 void lcd_shutdown(void);
 UINT32 disable_lcd_power(void);
 UINT32 disable_lcd_backlight(void);
+void SetupDisplaySize(DWORD*, DWORD*);  
+
 
 // Fire up the LCM, Ray 13-08-06.
-void lcm_config(void);
+/*void lcm_config(void);
 DWORD LCMSPIWrite(HANDLE, DWORD, VOID *);
 void OMAPDisplayController::R61526_send_command(short cmd);
-void OMAPDisplayController::R61526_send_data(short dat);
+void OMAPDisplayController::R61526_send_data(short dat);*/
 
 //------------------------------------------------------------------------------
 //
@@ -135,16 +137,11 @@ typedef struct
 /*}GPIO_InitTypeDef;*/
 //------------------------------------------------------------------------------
 
-
-
 DWORD   g_dwLogoPosX;
 DWORD   g_dwLogoPosY;
 
 DWORD   g_dwLogoWidth;
 DWORD   g_dwLogoHeight;
-
-
-
 
 static void FlipFrameBuffer(PUCHAR fb, DWORD h, DWORD lineSize,PUCHAR temporaryBuffer)
 {
@@ -171,30 +168,34 @@ static void FlipFrameBuffer(PUCHAR fb, DWORD h, DWORD lineSize,PUCHAR temporaryB
 //  This function shows the logo splash screen
 //
 //BOOL ShowLogo(UINT32 flashAddr, UINT32 offset)
-VOID ShowLogo(UINT32 flashAddr, UINT32 offset)
+VOID ShowLogo(UINT32 flashAddr, UINT32 offset)//-1, 0
 {
-    HANDLE  hFlash = NULL;
-    DWORD  framebuffer;
-    DWORD  framebufferPA;
+    HANDLE  hFlash = NULL;		
+    DWORD  framebuffer;		
+    DWORD  framebufferPA;	
     PUCHAR  pChar;
-    ULONG   x, y;
+    ULONG   y;
+	ULONG   x;
+
     WORD    wSignature = 0;
     DWORD   dwOffset = 0;
     DWORD   dwLcdWidth,
             dwLcdHeight;
     DWORD   dwLength;
 	
-	//  Get the LCD width and height
-    LcdPdd_LCD_GetMode( NULL, &dwLcdWidth, &dwLcdHeight, NULL );
 	
-    dwLength = BYTES_PER_PIXEL * LOGO_WIDTH * LOGO_HEIGHT;
+	//  Get the LCD width and height 	//-(Non-value, 320, 240,Non-value)
+    LcdPdd_LCD_GetMode( NULL, &dwLcdWidth, &dwLcdHeight, NULL ); 
+	
+							
+    dwLength = BYTES_PER_PIXEL * LOGO_WIDTH * LOGO_HEIGHT; //-3*320*240
 
     //  Get the video memory
-    LcdPdd_GetMemory( NULL, &framebufferPA );
+    LcdPdd_GetMemory( NULL, &framebufferPA );	//-*pVideoMemAddr = ConvertCAtoPA
     framebuffer = (DWORD) OALPAtoUA(framebufferPA);
     pChar = (PUCHAR)framebuffer;
     
-   if (flashAddr != -1)
+   if (flashAddr != -1)		//-not running
     {
         // Open flash storage
         hFlash = OALFlashStoreOpen(flashAddr);
@@ -229,74 +230,78 @@ VOID ShowLogo(UINT32 flashAddr, UINT32 offset)
 
     //  If bitmap signature is valid, display the logo, otherwise fill screen with pattern
     // if( wSignature == 0x4D42 )			Ray 13-08-01 
-   if( wSignature != 0x4D42 )		
+   if( wSignature != 0x4D42 )		//-0x4D42 == bitmap format values
 	{
-   
-		//  Adjust color bars to LCD size
+		 //  Adjust color bars to LCD size
 		g_dwLogoPosX   = 0;
         g_dwLogoPosY   = 0;
-        g_dwLogoWidth  = dwLcdWidth;
-        g_dwLogoHeight = dwLcdHeight;
-        
-        for (y= 0; y < dwLcdHeight; y++)
-        {
+		//g_dwLogoPosX   = dwLcdHeight-230; //calculating method : Height -240 = 0 (zeo is pixel start address)
+		//g_dwLogoPosX   = dwLcdWidth-310;			//calculating method : Width -320 = 0
+        g_dwLogoWidth  = dwLcdWidth;	//320
+        g_dwLogoHeight = dwLcdHeight;	//240	
+
+		//SetupDisplaySize(&dwLcdHeight, &dwLcdWidth); 
+	
+		//for (y= 0; y < dwLcdHeight; y++)
+        for (y = 0; y < dwLcdHeight; y++)		//240
+		{
+				 /**pChar++ = 0x00;    //  Blue	
+                		 *pChar++ = 0xFF;    //  Green
+                		 *pChar++ = 0x00;    //  Red*/
             for( x = 0; x < dwLcdWidth; x++ )
-            {
+			{
+			/*for( x = 0; x < dwLcdWidth-200; x++ )	//320
+            		{
 				 *pChar++ = 0x00;    //  Blue	
-                 *pChar++ = 0x00;    //  Green
-                 *pChar++ = 0xFF;    //  Red
-				/*if( y < dwLcdHeight/2 )
-                {
-                    if( x < dwLcdWidth/2 )
-                    {
+                 			*pChar++ = 0xFF;    //  Green
+                 			*pChar++ = 0x00;    //  Red
+            		//}*/
+				if(y < dwLcdHeight/2 )
+             	{
+                    //if( x < dwLcdWidth/2 )
+                    //{
                        *pChar++ = 0x00;    //  Blue	
                         *pChar++ = 0x00;    //  Green
                         *pChar++ = 0xFF;    //  Red
 						//*pChar++ = 0x00;    //  Blue	//Ray 13-07-31
                        // *pChar++ = 0x00;    //  Green
                        // *pChar++ = 0x00;    //  Red
-
-                    }
-                    else
-                    {
-                        /**pChar++ = 0x00;    //  Blue	
+				}else{
+                        *pChar++ = 0x00;    //  Blue	
                         *pChar++ = 0xFF;    //  Green
-                        *pChar++ = 0x00;    //  Red*/
+                        *pChar++ = 0x00;    //  Red
 						/**pChar++ = 0x00;    //  Blue	//Ray 13-07-31
-                        *pChar++ = 0x00;    //  Green
-                        *pChar++ = 0xFF;    //  Red
-                    }
-                }
-                else
-                {
+                        			*pChar++ = 0x00;    //  Green
+                        			*pChar++ = 0xFF;    //  Red*/
+				}
+               	/*}else{
                     if( x < dwLcdWidth/2 )
                     {
-                        /**pChar++ = 0xFF;    //  Blue	
+                        *pChar++ = 0xFF;    //  Blue	
                         *pChar++ = 0x00;    //  Green
-                        *pChar++ = 0x00;    //  Red*/
+                        *pChar++ = 0x00;    //  Red
 						/**pChar++ = 0x00;    //  Blue	//Ray 13-07-31
-                        *pChar++ = 0x00;    //  Green
-                        *pChar++ = 0xFF;    //  Red
-                    }
-                    else
-                    {
-						/**pChar++ = 0x00;    //  Blue	
+                        			*pChar++ = 0x00;    //  Green
+                        			*pChar++ = 0xFF;    //  Red*/
+                    /*}else{
+						*pChar++ = 0x00;    //  Blue	
                         *pChar++ = 0xFF;    //  Green
-                        *pChar++ = 0xFF;    //  Red*/
-						/**pChar++ = 0x00;    //  Blue	//Ray 13-07-31
-                        *pChar++ = 0x00;    //  Green
                         *pChar++ = 0xFF;    //  Red
-				    }
-                }*/
-            }
-        }
-    }
+						/**pChar++ = 0x00;    //  Blue	//Ray 13-07-31
+                        			*pChar++ = 0x00;    //  Green
+                       		//*pChar++ = 0xFF;    //  Red*/
+				    //}
+                //}
+        	}
+          }
+	}
+    
 
     //  Fire up the LCD
     lcd_config(framebufferPA); 
 	
 	//	Fire up the LCM, Ray 13-08-06.
-	lcm_config();
+	//lcm_config();
 }
 
 //------------------------------------------------------------------------------
@@ -680,6 +685,16 @@ void LcdSleep(DWORD dwMilliseconds)
 }
 
 //------------------------------------------------------------------------------
+//Would Adjust display size, Ray 13-08-06.
+ void SetupDisplaySize(DWORD *dwLcdHeight, DWORD *dwLcdWidth)
+{
+	PDWORD adjustHeight =  dwLcdHeight;
+	PDWORD adjustWidth  =  dwLcdWidth;
+	*adjustHeight 	/=2;
+	*adjustWidth 	/=2;
+}
+
+//------------------------------------------------------------------------------
 //LCM_SPI_Init function starting, Ray 13-08-06.
 
 /*BOOL OSPIOpen(void)
@@ -703,7 +718,7 @@ void LcdSleep(DWORD dwMilliseconds)
 	GPIO_InitConfig.GPIO_Pin = 
 }*/
 
-void OMAPDisplayController::R61526_send_command(short cmd)
+/*void OMAPDisplayController::R61526_send_command(short cmd)
 {
 	//LCMSPIWrite(hSPI, sizeof(short), &cmd);
 }
@@ -1022,7 +1037,7 @@ DWORD LCMSPIWrite(HANDLE hContext, DWORD size, VOID *pBuffer)
 	}
 }
 
-/*/void OMAPDisplayController::R61526_send_command(short cmd)
+void OMAPDisplayController::R61526_send_command(short cmd)
 {
 	//LCMSPIWrite(hSPI, sizeof(short), &cmd);
 }
@@ -1031,7 +1046,7 @@ void OMAPDisplayController::R61526_send_data(short dat)
 {
 	dat |= 0x0100;
 	//LCMSPIWrite(hSPI, sizeof(short), &dat);
-}*/
+}
 
 void lcm_config(void)
 {
@@ -1039,7 +1054,7 @@ void lcm_config(void)
 	//LCMSPIWrite(hSPI,);
 	OMAPDisplayController::R61526_send_command(short cmd);
 	OMAPDisplayController::R61526_send_data(short dat);
-}
+}*/
 
 
 //------------------------------------------------------------------------------
